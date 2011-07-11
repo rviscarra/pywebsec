@@ -21,18 +21,20 @@
 #       MA 02110-1301, USA.
 
 import gtk
-from configuration import Configuration 
 import glob
 import os
+from configuration import Configuration 
+from database_helper import DatabaseHelper
 from camera_manager import CameraManager
 from multiprocessing import Process
+import time
 
 class MainWindow:
 	
 	controls = [
-		'win_main', 'btn_config_events', 'btn_recognize_face', 
-		'cmb_cameras', 'btn_view_camera', 'txt_port', 
-		'btn_start_server', 'lst_cameras'
+		'win_main', 'btn_config_events', 'btn_recognize_face', 'lst_events',
+		'cmb_cameras', 'btn_view_camera', 'txt_port', 'btn_start_server', 
+		'lst_cameras', 'tr_vw_col_date', 'tr_vw_col_event', 'tr_vw_events'
 	]
 	
 	def __init__(self, config):
@@ -42,9 +44,10 @@ class MainWindow:
 		self.cm = CameraManager()
 		self.builder = gtk.Builder()
 		self.builder.add_from_file('win_main.xml')
-		
+		self.dbh = DatabaseHelper()
 		self._init_controls()
 		self._connect_events()
+		
 		
 	def _init_controls(self):
 		
@@ -55,6 +58,14 @@ class MainWindow:
 		self.cmb_cameras.pack_start(cell, True)
 		self.cmb_cameras.add_attribute(cell, "text", 0)
 		self._fill_cameras()
+		cell = gtk.CellRendererText()
+		self.tr_vw_col_date.pack_start(cell, True)
+		self.tr_vw_col_date.add_attribute(cell, 'text', 0)
+		cell = gtk.CellRendererText()
+		self.tr_vw_col_event.pack_start(cell, True)
+		self.tr_vw_col_event.add_attribute(cell, 'text', 1)
+		self._fill_events()
+		
 		
 	def _fill_cameras(self):
 		self.cmb_cameras.get_model().clear()
@@ -68,9 +79,21 @@ class MainWindow:
 		self.btn_view_camera.connect('clicked', self._view_camera)
 		self.btn_start_server.connect('clicked', self._start_server)
 		
+		
+	def _fill_events(self, *args):
+		self.lst_events.clear()
+		
+		for a in self.dbh.get_activities():
+			row = time.strftime('%d/%m/%Y', time.localtime(a[1])), a[2]
+			self.lst_events.append(row)
+		
+		
 	def _start_server(self, *args):
-		puerto = self.txt_port.get_text()
-		print 'Servidor iniciado en puerto', puerto
+		port = self.txt_port.get_text()
+		print 'Servidor iniciado en puerto', port
+		
+		proc = Process(target = MainWindow._start_monitor_server, args = (port,))
+		proc.start()
 		
 	def _win_main_delete_event(self, *args):
 		gtk.main_quit()
@@ -84,6 +107,11 @@ class MainWindow:
 			args = (device,) )
 			
 		proc.start()
+	
+	@staticmethod
+	def _start_monitor_server(port):
+		
+		os.popen(' '.join(('python', 'monitor_server.py', '-p', port)))
 	
 	@staticmethod
 	def _start_camera_monitor(device):

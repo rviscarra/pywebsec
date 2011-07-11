@@ -169,17 +169,29 @@
           </packing>
         </child>
         <child>
-          <object class="GtkTreeView" id="tr_vw_eventos">
+          <object class="GtkTreeView" id="tr_vw_events">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="model">lst_eventos</property>
+            <property name="model">lst_events</property>
+            <child>
+              <object class="GtkTreeViewColumn" id="tr_vw_col_date">
+                <property name="fixed_width">10</property>
+                <property name="title">Fecha</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="tr_vw_col_event">
+                <property name="title">Evento</property>
+                <property name="expand">True</property>
+              </object>
+            </child>
           </object>
           <packing>
             <property name="position">1</property>
           </packing>
         </child>
         <child type="tab">
-          <object class="GtkLabel" id="lbl_eventos">
+          <object class="GtkLabel" id="lbl_events">
             <property name="visible">True</property>
             <property name="label" translatable="yes">Eventos</property>
           </object>
@@ -191,22 +203,12 @@
       </object>
     </child>
   </object>
-  <object class="GtkListStore" id="lst_eventos">
+  <object class="GtkListStore" id="lst_events">
     <columns>
       <!-- column-name Evento -->
       <column type="gchararray"/>
       <!-- column-name Fecha/Hora -->
       <column type="gchararray"/>
     </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">Un evento</col>
-        <col id="1" translatable="yes">12/12/2010</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">Otro evento</col>
-        <col id="1" translatable="yes">1/1/2011</col>
-      </row>
-    </data>
   </object>
 </interface>

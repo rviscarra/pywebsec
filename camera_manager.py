@@ -126,7 +126,7 @@ if __name__ == '__main__':
 		
 		camera = manager.get_camera(options.device)
 		
-		dbh = DatabaseHelper
+		dbh = DatabaseHelper()
 		
 		camera.init()
 			

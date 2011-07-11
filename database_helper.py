@@ -22,48 +22,61 @@
 
 import sqlite3 as dbapi
 import os
-from datetime import date
+import time
 
 
 class DatabaseHelper:
 	
 	_DATABASE_NAME = 'database.db'
+	_TIME_DIFF = 15
+	
 	
 	def __init__(self):
 		
-		if os.path.exists(self._DATABASE_NAME):
+		if not os.path.exists(self._DATABASE_NAME):
 
 			self.connection = dbapi.connect(self._DATABASE_NAME)
-			create_database()
+			self._create_database()
 
 		else:
 
 			self.connection = dbapi.connect(self._DATABASE_NAME)
-
+		self.last = 0
 	
-	def create_database(self):
+	def _create_database(self):
 		
-		for table in _tables:
-			cursor = self.connection,cursor()
+		cursor = self.connection.cursor()
+		for table in self._tables:
+			
 			cursor.execute(table)
 		
 		self.connection.commit()
 		cursor.close()
 	
 	def insert_activity(self, activity):
-		now = int(time,mktime(time.gmtime()))
+		
+		now = int(time.mktime(time.gmtime()))
+		if (now - self.last) > self._TIME_DIFF:
+			
+			cursor = self.connection.cursor()
+			cursor.execute('INSERT INTO activity VALUES(NULL, ?, ?)', (now, activity))
+		
+			self.connection.commit()
+			cursor.close()
+			self.last = now
+	
+	def get_activities(self):
 		
 		cursor = self.connection.cursor()
-		cursor.execute('INSERT INTO activity VALUES(NULL, ?, ?)', (now, activity))
 		
-		self.connection.commit()
-		cursor.close()
+		cursor.execute('SELECT * FROM activity')
+		
+		return [ row for row in cursor ]
 	
 	def close(self):
 		
 		self.connection.close()
 		
-	
 	_tables = [ 
 		""" create table hour_range (
 				range_id integer primary key autoincrement,
@@ -75,4 +88,5 @@ class DatabaseHelper:
 				activity_date integer not null,
 				description text not null
 			) """]
+	
 	
