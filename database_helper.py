@@ -22,11 +22,12 @@
 
 import sqlite3 as dbapi
 import os
+from datetime import date
+
 
 class DatabaseHelper:
 	
-	_DATABASE_NAME = 'data/database.db'
-	_connection = None
+	_DATABASE_NAME = 'database.db'
 	
 	def __init__(self):
 		
@@ -43,19 +44,27 @@ class DatabaseHelper:
 	def create_database(self):
 		
 		for table in _tables:
-
-			self.connection.execute(table)
-
-	@staticmethod
-	def get_connection():
+			cursor = self.connection,cursor()
+			cursor.execute(table)
 		
+		self.connection.commit()
+		cursor.close()
+	
+	def insert_activity(self, activity):
+		now = int(time,mktime(time.gmtime()))
+		
+		cursor = self.connection.cursor()
+		cursor.execute('INSERT INTO activity VALUES(NULL, ?, ?)', (now, activity))
+		
+		self.connection.commit()
+		cursor.close()
+	
+	def close(self):
+		
+		self.connection.close()
 		
 	
 	_tables = [ 
-		""" create table conf_property (
-				pkey text primary key,
-				pvalues text not null
-			) """,
 		""" create table hour_range (
 				range_id integer primary key autoincrement,
 				start_hour integer not null,
@@ -63,7 +72,7 @@ class DatabaseHelper:
 			) """,
 		""" create table activity (
 				activity_id integer primary key autoincrement,
-				activity_date date not null,
+				activity_date integer not null,
 				description text not null
 			) """]
 	

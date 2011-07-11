@@ -21,6 +21,7 @@
 #       MA 02110-1301, USA.
 
 import cgi
+from optparse import OptionParser
 from Cheetah.Template import Template
 from camera_manager import CameraManager
 import BaseHTTPServer as http
@@ -162,23 +163,26 @@ class RemoteCameraRequestHandler(http.BaseHTTPRequestHandler):
 		
 		
 	
-class MonitorServer:
-	
-	def __init__(self):
-		conf = Configuration.get()
-		self._port = conf['listen_port']
-	
-	def start(self):
-		self.keep_running = True
-	
-	def stop(self):
-		self.keep_running = False
+
 		
 		
 if __name__ == "__main__":
 	
 	config = Configuration()
-	listen_params = ('', config['listen_port'])
+	
+	parser = OptionParser()
+	
+	parser.add_option('-p', '--port', dest='port', default=config['listen_port'], help='Puerto en el que escuchara el servidor')
+	
+	options = parser.parse_args()[0]
+	
+	try:
+		port = int(options.port)
+	except ex:
+		print 'Pueto erroneo [{0}]'.format(options.port)
+		exit()
+	
+	listen_params = ('', port)
 	httpd = http.HTTPServer(listen_params, RemoteCameraRequestHandler)
 	httpd.serve_forever()
 	

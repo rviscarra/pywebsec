@@ -24,6 +24,7 @@ from optparse import OptionParser
 from configuration import Configuration
 from glob import glob
 from opencv import highgui
+from database_helper import DatabaseHelper
 import opencv as cv
 import re
 
@@ -53,6 +54,7 @@ class Camera:
 	def get_frame(self, face_rec = False):
 		
 		image = highgui.cvQueryFrame(self.device)
+		face_matches = False
 		
 		if face_rec:
 			
@@ -67,6 +69,7 @@ class Camera:
 										  cv.CV_HAAR_DO_CANNY_PRUNING, cv.cvSize(100,100))
 			  
 				if matches:
+					face_matches = True
 					for i in matches:
 						cv.cvRectangle(image, cv.cvPoint( int(i.x), int(i.y)),
 							cv.cvPoint(int(i.x+i.width), int(i.y+i.height)),
@@ -74,11 +77,11 @@ class Camera:
 			
 			image = cv.cvGetMat(image)
 			
-		return image
+		return (image, face_matches)
 	
 	def save_frame(self, image_path):
 		
-		highgui.cvSaveImage(image_path, self.get_frame())
+		highgui.cvSaveImage(image_path, self.get_frame()[0])
 			
 	
 class CameraManager:
@@ -123,6 +126,8 @@ if __name__ == '__main__':
 		
 		camera = manager.get_camera(options.device)
 		
+		dbh = DatabaseHelper
+		
 		camera.init()
 			
 		keep_running = True
@@ -139,7 +144,11 @@ if __name__ == '__main__':
 		
 		while keep_running:
 		
-			img = camera.get_frame(options.face)
+			img, match = camera.get_frame(options.face)
+			
+			if match:
+				
+				dbh.insert_activity('Rostro detectado')
 			
 			highgui.cvShowImage(wname, img)
 			key = highgui.cvWaitKey(10)

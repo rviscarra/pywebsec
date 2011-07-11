@@ -30,8 +30,6 @@ class Configuration:
 	def __init__(self):
 		self._config_values = None
 		self._load()
-		print "------------------------------------------\nConfiguración cargada!\n------------------------------------------"
-		
 	
 	def _load(self):
 		

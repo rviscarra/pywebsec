@@ -31,8 +31,8 @@ class MainWindow:
 	
 	controls = [
 		'win_main', 'btn_config_events', 'btn_recognize_face', 
-		'chk_send_notification', 'txt_notification_mail', 'cmb_cameras', 
-		'btn_view_camera', 'txt_port', 'btn_start_server', 'lst_cameras'
+		'cmb_cameras', 'btn_view_camera', 'txt_port', 
+		'btn_start_server', 'lst_cameras'
 	]
 	
 	def __init__(self, config):
@@ -66,6 +66,11 @@ class MainWindow:
 	def _connect_events(self):
 		self.win_main.connect('delete_event', self._win_main_delete_event)
 		self.btn_view_camera.connect('clicked', self._view_camera)
+		self.btn_start_server.connect('clicked', self._start_server)
+		
+	def _start_server(self, *args):
+		puerto = self.txt_port.get_text()
+		print 'Servidor iniciado en puerto', puerto
 		
 	def _win_main_delete_event(self, *args):
 		gtk.main_quit()
