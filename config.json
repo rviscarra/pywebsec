@@ -1,0 +1,12 @@
+{
+	"listen_port": 3389,
+	"frames_per_second": 30,
+	"database_file": "database.db",
+	"cameras_glob": "/dev/video*",
+	"haar_classifiers_dir": "haarcascades/",
+	"haar_classifiers": [
+		"haarcascade_frontalface_alt.xml"
+	],
+	"user": "rafael",
+	"password": ""
+}

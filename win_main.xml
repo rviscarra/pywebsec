@@ -1,0 +1,357 @@
+<?xml version="1.0"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkListStore" id="lst_cameras">
+    <columns>
+      <!-- column-name camera_device -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name Evento -->
+      <column type="gchararray"/>
+      <!-- column-name Hora -->
+      <column type="GtkButtonsType"/>
+      <!-- column-name Hora1 -->
+      <column type="GtkButtonsType"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Un evento</col>
+        <col id="1">ok</col>
+        <col id="2">ok</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">12365487</col>
+        <col id="1">close</col>
+        <col id="2">yes-no</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkWindow" id="win_main">
+    <property name="title" translatable="yes">PySurv</property>
+    <property name="resizable">False</property>
+    <property name="window_position">center-on-parent</property>
+    <child>
+      <object class="GtkNotebook" id="tab_main">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="tab_pos">bottom</property>
+        <property name="homogeneous">True</property>
+        <child>
+          <object class="GtkVBox" id="vbox_main">
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkFrame" id="frm_cameras">
+                <property name="width_request">400</property>
+                <property name="height_request">100</property>
+                <property name="visible">True</property>
+                <property name="border_width">1</property>
+                <property name="label_xalign">0</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <object class="GtkHButtonBox" id="hbox_main">
+                    <property name="visible">True</property>
+                    <property name="spacing">10</property>
+                    <property name="layout_style">start</property>
+                    <child>
+                      <object class="GtkLabel" id="lbl_cameras">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Camaras:</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="cmb_cameras">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="model">lst_cameras</property>
+                        <property name="tearoff_title">Seleccionar camara</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="btn_view_camera">
+                        <property name="label" translatable="yes">Ver</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="lbl_frame_main">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Ver camara&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFrame" id="frm_remote">
+                <property name="width_request">400</property>
+                <property name="height_request">100</property>
+                <property name="visible">True</property>
+                <property name="border_width">1</property>
+                <property name="label_xalign">0</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <object class="GtkAlignment" id="alig_hbox_remote">
+                    <property name="visible">True</property>
+                    <property name="left_padding">12</property>
+                    <child>
+                      <object class="GtkHButtonBox" id="hbox_remote">
+                        <property name="visible">True</property>
+                        <property name="spacing">10</property>
+                        <property name="homogeneous">True</property>
+                        <property name="layout_style">start</property>
+                        <child>
+                          <object class="GtkLabel" id="lbl_port">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">Puerto:</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="txt_port">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="max_length">5</property>
+                            <property name="invisible_char">&#x25CF;</property>
+                            <property name="width_chars">5</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="btn_start_server">
+                            <property name="label" translatable="yes">Habilitar</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="lbl_frame_remote">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Iniciar visi&#xF3;n remota&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child type="tab">
+          <object class="GtkLabel" id="lbl_main">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">Principal</property>
+          </object>
+          <packing>
+            <property name="tab_fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTreeView" id="treeview1">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="model">liststore1</property>
+          </object>
+          <packing>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child type="tab">
+          <object class="GtkLabel" id="lbl_eventos">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">Eventos</property>
+          </object>
+          <packing>
+            <property name="position">1</property>
+            <property name="tab_fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkVBox" id="vbox_config">
+            <property name="height_request">250</property>
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkHButtonBox" id="hbox_events">
+                <property name="visible">True</property>
+                <property name="layout_style">spread</property>
+                <child>
+                  <object class="GtkLabel" id="lbl_events">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Configurar
+eventos</property>
+                    <property name="justify">center</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="btn_config_events">
+                    <property name="label" translatable="yes">...</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="image_position">top</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkHButtonBox" id="hbox_face">
+                <property name="visible">True</property>
+                <property name="layout_style">spread</property>
+                <child>
+                  <object class="GtkLabel" id="lbl_recognize_faces">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Ubicar rostros</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToggleButton" id="tbtn_recognize_face">
+                    <property name="label" translatable="yes">No</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFrame" id="frm_config_notification">
+                <property name="visible">True</property>
+                <property name="label_xalign">0</property>
+                <property name="shadow_type">in</property>
+                <child>
+                  <object class="GtkVButtonBox" id="vbox_config_notification">
+                    <property name="visible">True</property>
+                    <property name="layout_style">spread</property>
+                    <child>
+                      <object class="GtkCheckButton" id="chk_send_notification">
+                        <property name="label" translatable="yes">Enviar</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="txt_notification_mail">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="has_tooltip">True</property>
+                        <property name="tooltip_markup">Correo</property>
+                        <property name="tooltip_text" translatable="yes">Correo</property>
+                        <property name="invisible_char">&#x25CF;</property>
+                        <property name="text" translatable="yes">corre@dominio.com</property>
+                        <property name="overwrite_mode">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel" id="lbl_config_notification">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">&lt;b&gt;Notificaciones&lt;/b&gt;</property>
+                    <property name="use_markup">True</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child type="tab">
+          <object class="GtkLabel" id="lbl_config">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">Configuraci&#xF3;n</property>
+          </object>
+          <packing>
+            <property name="position">2</property>
+            <property name="tab_fill">False</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
