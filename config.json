@@ -1,5 +1,5 @@
 {
-	"listen_port": 3389,
+	"listen_port": 3089,
 	"frames_per_second": 30,
 	"database_file": "database.db",
 	"cameras_glob": "/dev/video*",
