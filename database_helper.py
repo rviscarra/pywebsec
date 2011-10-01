@@ -59,7 +59,7 @@ class DatabaseHelper:
 		if (now - self.last) > self._TIME_DIFF:
 			
 			cursor = self.connection.cursor()
-			cursor.execute('INSERT INTO activity VALUES(NULL, ?, ?)', (now, activity))
+			cursor.execute('INSERT INTO activity VALUES(0, ?, ?)', (now, activity))
 		
 			self.connection.commit()
 			cursor.close()
